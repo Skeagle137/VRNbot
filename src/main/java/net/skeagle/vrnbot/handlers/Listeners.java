@@ -1,16 +1,14 @@
 package net.skeagle.vrnbot.handlers;
 
-import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.User;
-import net.dv8tion.jda.api.events.guild.member.GuildMemberJoinEvent;
-import net.dv8tion.jda.api.events.guild.member.GuildMemberRemoveEvent;
+import net.dv8tion.jda.api.events.guild.voice.GuildVoiceLeaveEvent;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
-import net.skeagle.vrnbot.Bot;
+import net.dv8tion.jda.api.managers.AudioManager;
+import net.skeagle.vrnbot.handlers.lavaplayer.GuildMusicManager;
+import net.skeagle.vrnbot.handlers.lavaplayer.PlayerManager;
 import net.skeagle.vrnbot.settings.Prefix;
-
-import java.awt.*;
-import java.util.Random;
+import net.skeagle.vrnbot.utils.GuildMusicCache;
 
 public class Listeners extends ListenerAdapter {
 
@@ -46,6 +44,16 @@ public class Listeners extends ListenerAdapter {
     }
 
      */
+
+    @Override
+    public void onGuildVoiceLeave(GuildVoiceLeaveEvent e) {
+        if (e.getNewValue() == null)
+            GuildMusicCache.getInstance().getVolumeCache().remove(e.getGuild().getId());
+        PlayerManager playerManager = PlayerManager.getInstance();
+        GuildMusicManager musicManager = playerManager.getGuildMusicManager(e.getGuild());
+        if (musicManager.player.getPlayingTrack() != null && !musicManager.player.isPaused())
+            musicManager.player.stopTrack();
+    }
 
     @Override
     public void onGuildMessageReceived(GuildMessageReceivedEvent e) {

@@ -6,14 +6,12 @@ import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.utils.Compression;
 import net.skeagle.vrnbot.db.SQLite;
 import net.skeagle.vrnbot.handlers.Listeners;
-import net.skeagle.vrnbot.handlers.LoggingListeners;
 import net.skeagle.vrnbot.settings.Config;
 
 import javax.security.auth.login.LoginException;
 
 public final class Bot {
 
-    public final static boolean lite = false;
     public static JDABuilder jda;
     public static SQLite db;
 
@@ -28,7 +26,7 @@ public final class Bot {
                 .setCompression(Compression.NONE)
                 .disableIntents(GatewayIntent.GUILD_PRESENCES, GatewayIntent.GUILD_MESSAGE_TYPING,
                         GatewayIntent.GUILD_INVITES, GatewayIntent.GUILD_MEMBERS)
-                .addEventListeners(new Listeners(), new LoggingListeners()).build();
+                .addEventListeners(new Listeners()).build();
         } catch (LoginException e) {
             System.out.println("\nERROR: Login failed.");
             e.printStackTrace();

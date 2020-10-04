@@ -13,7 +13,7 @@ public class Setprefix extends Command {
     private Connection conn;
 
     public Setprefix() {
-        super("setprefix");
+        super("setprefix|prefix");
         setDesc("Set the guild prefix of the bot.");
         setUsage("<prefix>");
         setCategory(Category.SETTINGS);

@@ -7,6 +7,7 @@ import com.google.api.services.youtube.model.SearchResult;
 import net.skeagle.vrnbot.settings.Config;
 import net.skeagle.vrnbot.handlers.Command;
 import net.skeagle.vrnbot.handlers.lavaplayer.PlayerManager;
+import net.skeagle.vrnbot.utils.GuildMusicCache;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -37,31 +38,34 @@ public class Play extends Command {
 
     @Override
     public void runCMD() {
-        if (args.length > 0) {
-            PlayerManager manager = PlayerManager.getInstance();
-
-            String input = String.join(" ", args);
-
-            if (!joinVoice(e.getMember(), g)) return;
-            joinVoice(e.getMember(), g);
-
-            if (!isUrl(input)) {
-                String s = ytSearch(input);
-
-                if (s == null) {
-                    send("The search returned no results.");
-                    return;
-                }
-
-                input = s;
-            }
-
-            manager.loadAndPlay(channel, input);
-
-            manager.getGuildMusicManager(g).player.setVolume(60);
+        if (args.length < 1) {
+            send("You must include a URL or keywords in the command.");
             return;
         }
-        send("You must include a URL or keywords in the command.");
+        PlayerManager manager = PlayerManager.getInstance();
+
+        String input = String.join(" ", args);
+
+        if (!joinVoice(e.getMember(), g)) return;
+        joinVoice(e.getMember(), g);
+
+        if (!isUrl(input)) {
+            String s = ytSearch(input);
+
+            if (s == null) {
+                send("The search returned no results.");
+                return;
+            }
+
+            input = s;
+        }
+
+        manager.loadAndPlay(channel, input);
+
+        if (!GuildMusicCache.getInstance().getVolumeCache().containsKey(g.getId())) {
+            GuildMusicCache.getInstance().getVolumeCache().put(g.getId(), 60);
+            manager.getGuildMusicManager(g).player.setVolume(60);
+        }
     }
 
     private String ytSearch(String s) {

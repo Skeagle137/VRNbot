@@ -3,6 +3,7 @@ package net.skeagle.vrnbot.commands.admin;
 import net.dv8tion.jda.api.entities.*;
 import net.skeagle.vrnbot.Bot;
 import net.skeagle.vrnbot.handlers.AdminCommand;
+import net.skeagle.vrnbot.settings.Config;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -53,7 +54,7 @@ public class Setavatar extends AdminCommand {
                     }
                     else {
                         if (args[0].equals("default")) {
-                            String pic = (Bot.lite ? "VRNlogolite.png" : "VRNlogo.png");
+                            String pic = Config.DEFAULT_AVATAR;
                             progress = channel.sendMessage("Resetting avatar to default...").complete();
                             progress.editMessage(progress.getContentRaw() + " " + args[0]).complete();
                             connection = getClass().getClassLoader().getResource(pic).openConnection();

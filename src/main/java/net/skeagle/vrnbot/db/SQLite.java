@@ -42,7 +42,9 @@ public class SQLite {
                 Config.DEFAULT_PREFIX + "');");
         initializeTable("blacklisted", "id INTEGER PRIMARY KEY AUTOINCREMENT," +
                 "user_id VARCHAR(20) NOT NULL);");
-        initializeTable("guild_logs", "id INTEGER PRIMARY KEY AUTOINCREMENT," +
-                "guild_id VARCHAR(20) NOT NULL,channel_id VARCHAR(30));");
+        initializeTable("leveling", "id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "guild_id VARCHAR(20) NOT NULL,maxlevel INTEGER);");
+        initializeTable("levelingroles", "id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "guild_id VARCHAR(20) NOT NULL,role_id VARCHAR(20), level_obtained INTEGER, weight INTEGER);");
     }
 }

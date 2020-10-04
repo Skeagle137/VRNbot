@@ -3,6 +3,9 @@ package net.skeagle.vrnbot.commands.music;
 import net.skeagle.vrnbot.handlers.Command;
 import net.skeagle.vrnbot.handlers.lavaplayer.GuildMusicManager;
 import net.skeagle.vrnbot.handlers.lavaplayer.PlayerManager;
+import net.skeagle.vrnbot.utils.GuildMusicCache;
+
+import java.util.HashMap;
 
 public class Volume extends Command {
 
@@ -27,6 +30,7 @@ public class Volume extends Command {
             if (i > 200 || i < 0) {
                 send("Volume must be a number 0-200.");
             }
+            GuildMusicCache.getInstance().getVolumeCache().put(g.getId(), i);
             musicManager.player.setVolume(i);
             send("Set volume to `" + musicManager.player.getVolume() + "`.");
             return;
