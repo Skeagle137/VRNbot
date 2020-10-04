@@ -36,6 +36,7 @@ public class CommandHandler {
         addCmd(new Setprefix());
         addCmd(new BlackList());
         addCmd(new Kick());
+        addCmd(new Pause());
     }
 
     private void addCmd(Command base) {
