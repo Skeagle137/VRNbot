@@ -1,9 +1,8 @@
 package net.skeagle.vrnbot.commands.admin;
 
 import net.dv8tion.jda.api.entities.*;
-import net.skeagle.vrnbot.Bot;
 import net.skeagle.vrnbot.handlers.AdminCommand;
-import net.skeagle.vrnbot.settings.Config;
+import net.skeagle.vrnbot.utils.Config;
 
 import java.io.IOException;
 import java.net.MalformedURLException;

@@ -3,6 +3,8 @@ package net.skeagle.vrnbot.settings;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import net.skeagle.vrnbot.utils.Config;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;

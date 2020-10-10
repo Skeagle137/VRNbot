@@ -6,7 +6,7 @@ import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
-import net.skeagle.vrnbot.settings.Config;
+import net.skeagle.vrnbot.utils.Config;
 
 public abstract class AdminCommand extends Command {
 

@@ -1,7 +1,7 @@
 package net.skeagle.vrnbot.commands.general;
 
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.skeagle.vrnbot.settings.Config;
+import net.skeagle.vrnbot.utils.Config;
 import net.skeagle.vrnbot.handlers.Command;
 import net.skeagle.vrnbot.handlers.CommandHandler;
 import net.skeagle.vrnbot.settings.Prefix;

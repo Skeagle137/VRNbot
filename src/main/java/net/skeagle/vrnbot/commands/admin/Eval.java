@@ -22,7 +22,7 @@ public class Eval extends AdminCommand {
                 Executors.newCachedThreadPool().execute(() -> {
                     try {
                         ScriptEngine script = new ScriptEngineManager().getEngineByExtension("js");
-                        script.put("vrn", jda);
+                        script.put("jda", jda);
                         script.put("channel", channel);
                         script.put("author", author);
                         script.put("msg", msg);

@@ -4,7 +4,8 @@ import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.services.youtube.YouTube;
 import com.google.api.services.youtube.model.SearchResult;
-import net.skeagle.vrnbot.settings.Config;
+import net.skeagle.vrnbot.handlers.lavaplayer.GuildMusicManager;
+import net.skeagle.vrnbot.utils.Config;
 import net.skeagle.vrnbot.handlers.Command;
 import net.skeagle.vrnbot.handlers.lavaplayer.PlayerManager;
 import net.skeagle.vrnbot.utils.GuildMusicCache;
@@ -66,6 +67,9 @@ public class Play extends Command {
             GuildMusicCache.getInstance().getVolumeCache().put(g.getId(), 60);
             manager.getGuildMusicManager(g).player.setVolume(60);
         }
+        PlayerManager playerManager = PlayerManager.getInstance();
+        GuildMusicManager musicManager = playerManager.getGuildMusicManager(g);
+        musicManager.player.setPaused(false);
     }
 
     private String ytSearch(String s) {

@@ -1,6 +1,6 @@
 package net.skeagle.vrnbot.db;
 
-import net.skeagle.vrnbot.settings.Config;
+import net.skeagle.vrnbot.utils.Config;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

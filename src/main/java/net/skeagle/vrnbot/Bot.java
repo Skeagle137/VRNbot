@@ -6,7 +6,7 @@ import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.utils.Compression;
 import net.skeagle.vrnbot.db.SQLite;
 import net.skeagle.vrnbot.handlers.Listeners;
-import net.skeagle.vrnbot.settings.Config;
+import net.skeagle.vrnbot.utils.Config;
 
 import javax.security.auth.login.LoginException;
 

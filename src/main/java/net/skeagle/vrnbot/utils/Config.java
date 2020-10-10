@@ -1,4 +1,4 @@
-package net.skeagle.vrnbot.settings;
+package net.skeagle.vrnbot.utils;
 
 import io.github.cdimascio.dotenv.Dotenv;
 
