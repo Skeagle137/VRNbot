@@ -4,16 +4,14 @@ import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.guild.voice.GuildVoiceLeaveEvent;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
-import net.dv8tion.jda.api.managers.AudioManager;
 import net.skeagle.vrnbot.handlers.lavaplayer.GuildMusicManager;
 import net.skeagle.vrnbot.handlers.lavaplayer.PlayerManager;
 import net.skeagle.vrnbot.settings.Prefix;
 import net.skeagle.vrnbot.utils.GuildMusicCache;
 
-import java.net.MalformedURLException;
-import java.net.URL;
-
 public class Listeners extends ListenerAdapter {
+
+    private boolean isCooldown;
 
     /*
     @Override
@@ -60,19 +58,7 @@ public class Listeners extends ListenerAdapter {
 
     @Override
     public void onGuildMessageReceived(GuildMessageReceivedEvent e) {
-        if (e.getGuild().getId().equalsIgnoreCase("760661313746894859") && e.getMessage().getContentRaw().contains("tiktok")) {
-            try {
-                new URL(e.getMessage().getContentRaw());
-            }
-            catch (MalformedURLException ex) {
-                return;
-            }
-            e.getChannel().sendMessage("Wow everyone look, " + e.getAuthor().getAsMention() + " just tried to post something from tiktok, but we saved you from having to look at that cringe \\:)").queue();
-            return;
-        }
-        if (e.getAuthor().isBot()) {
-            return;
-        }
+        if (e.getAuthor().isBot()) return;
         String rawmsg = e.getMessage().getContentRaw();
         User botmention = e.getJDA().getSelfUser();
         String prefix = Prefix.getInstance().getPrefixes().computeIfAbsent(e.getGuild().getIdLong(), Prefix.getInstance()::get);

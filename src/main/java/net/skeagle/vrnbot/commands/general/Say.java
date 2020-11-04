@@ -26,6 +26,6 @@ public class Say extends Command {
             send(sb.toString());
             return;
         }
-            sendDM(author,"You must provide text after the command.");
+        sendDM(author,"You must provide text after the command.");
     }
 }

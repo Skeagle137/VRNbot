@@ -37,6 +37,7 @@ public class CommandHandler {
         addCmd(new BlackList());
         addCmd(new Kick());
         addCmd(new Pause());
+        addCmd(new Coinflip());
     }
 
     private void addCmd(Command base) {
