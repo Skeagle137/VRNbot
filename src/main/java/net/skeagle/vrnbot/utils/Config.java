@@ -8,7 +8,6 @@ public class Config {
 
     public static final String TOKEN = config.get("token");
     public static final String OWNERID = config.get("ownerid");
-    public static final String YTKEY = config.get("ytkey");
     public static final String DEFAULT_PREFIX = config.get("default_prefix");
     public static final String DEFAULT_AVATAR = config.get("default_avatar");
 }

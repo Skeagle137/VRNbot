@@ -1,38 +1,26 @@
 package net.skeagle.vrnbot.commands.music;
 
-import net.dv8tion.jda.api.entities.*;
+import net.dv8tion.jda.api.entities.VoiceChannel;
 import net.dv8tion.jda.api.managers.AudioManager;
-import net.skeagle.vrnbot.handlers.Command;
+import net.skeagle.vrnbot.handlers.VoiceCommand;
 
-public class Join extends Command {
+import java.util.List;
+
+public class Join extends VoiceCommand {
 
     public Join() {
-        super("join");
-        setDesc("Joins a voice channel.");
-        setUsage("[channel]");
-        setCategory(Category.MUSIC);
+        super("join", true, false, false);
+        setDesc("Joins the voice channel that you are in.");
     }
 
     @Override
-    public void runCMD() {
-        VoiceChannel vc;
+    public void runCMDVoice() {
         AudioManager am = g.getAudioManager();
         if (am.isConnected()) {
-            channel.sendMessage("I am already in a voice channel.").queue();
+            send((!isInSameChannel(g, e.getMember()) ?
+                    "I am already in a voice channel. Use the summon command to summon me to your channel." : "I am already in your voice channel."));
             return;
         }
-        if (args.length > 0) {
-            vc = g.getVoiceChannelsByName(args[1], true).get(0);
-            if (vc == null) {
-                channel.sendMessage("That voice channel does not exist.").queue();
-            }
-        }
-        else {
-            vc = isInChannel(g, author);
-            if (vc == null) {
-                channel.sendMessage("You must be in a voice channel to do this, or you can use v!join [channel].").queue();
-            }
-        }
-        am.openAudioConnection(vc);
+        am.openAudioConnection(e.getMember().getVoiceState().getChannel());
     }
 }

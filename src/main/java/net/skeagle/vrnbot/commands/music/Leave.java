@@ -2,27 +2,25 @@ package net.skeagle.vrnbot.commands.music;
 
 import net.dv8tion.jda.api.managers.AudioManager;
 
-import net.skeagle.vrnbot.handlers.Command;
+import net.skeagle.vrnbot.handlers.VoiceCommand;
 import net.skeagle.vrnbot.handlers.lavaplayer.GuildMusicManager;
 import net.skeagle.vrnbot.handlers.lavaplayer.PlayerManager;
 
-public class Leave extends Command {
+public class Leave extends VoiceCommand {
 
     public Leave() {
         super("leave");
         setDesc("Leaves a voice channel.");
-        setCategory(Category.MUSIC);
     }
 
     @Override
-    public void runCMD() {
+    public void runCMDVoice() {
         AudioManager am = g.getAudioManager();
-        if (!am.isConnected()) {
-            send("I am not currently in a voice channel.");
-            return;
-        }
         PlayerManager playerManager = PlayerManager.getInstance();
         GuildMusicManager musicManager = playerManager.getGuildMusicManager(g);
+        if (musicManager.player.getPlayingTrack() != null) {
+            send("Can't leave the voice channel when there is a currently playing track.");
+        }
         musicManager.scheduler.getQueue().clear();
         musicManager.player.stopTrack();
         am.closeAudioConnection();

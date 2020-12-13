@@ -1,5 +1,6 @@
 package net.skeagle.vrnbot.handlers;
 
+import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.guild.voice.GuildVoiceLeaveEvent;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
@@ -10,8 +11,6 @@ import net.skeagle.vrnbot.settings.Prefix;
 import net.skeagle.vrnbot.utils.GuildMusicCache;
 
 public class Listeners extends ListenerAdapter {
-
-    private boolean isCooldown;
 
     /*
     @Override
@@ -48,6 +47,7 @@ public class Listeners extends ListenerAdapter {
 
     @Override
     public void onGuildVoiceLeave(GuildVoiceLeaveEvent e) {
+        if (e.getMember().getUser() != e.getJDA().getSelfUser()) return;
         if (e.getNewValue() == null)
             GuildMusicCache.getInstance().getVolumeCache().remove(e.getGuild().getId());
         PlayerManager playerManager = PlayerManager.getInstance();

@@ -116,8 +116,8 @@ public abstract class Command {
 
         try {
             runCMD();
-        } catch (VRNException e2) {
-            send(e2.getMessage());
+        } catch (VRNException ex) {
+            send(ex.getMessage());
         }
     }
 
@@ -127,30 +127,20 @@ public abstract class Command {
         this.command = command;
     }
 
-    protected VoiceChannel isInChannel(Guild g, User author) {
+    protected boolean isInChannel(Guild g, User author) {
         Member member = g.getMember(author);
-        try {
-            return member.getVoiceState().getChannel();
-        } catch (NullPointerException e) {
-            return null;
-        }
+        return member.getVoiceState().getChannel() != null;
     }
 
     protected boolean joinVoice(Member member, Guild g) {
         AudioManager am = g.getAudioManager();
-        VoiceChannel vc = isInChannel(g, member.getUser());
-        if (am.isConnected()) {
-            am.openAudioConnection(vc);
+        isInChannel(g, member.getUser());
+        if (am.isConnected() || isInChannel(g, member.getUser())) {
+            am.openAudioConnection(member.getVoiceState().getChannel());
             return true;
         }
-        if (vc == null) {
-            send("You must be in a voice channel to do this.");
-            return false;
-        }
-        else {
-            am.openAudioConnection(vc);
-            return true;
-        }
+        send("You must be in a voice channel to do this.");
+        return false;
     }
 
     protected void sendDM(User author, String... msg) {
@@ -173,10 +163,15 @@ public abstract class Command {
         channel.sendMessage(embed).queue();
     }
 
+    protected boolean isInSameChannel(Guild g, Member member) {
+        AudioManager am = g.getAudioManager();
+        if (am.getConnectedChannel() == null || !member.getVoiceState().inVoiceChannel()) return false;
+        return am.getConnectedChannel().getId().equals(member.getVoiceState().getChannel().getId());
+    }
+
     protected User getUser(int index) {
-        if (!msg.getMentionedUsers().isEmpty()) {
+        if (!msg.getMentionedUsers().isEmpty())
             return msg.getMentionedUsers().get(0);
-        }
         String id = args[index];
 
         User user = null;

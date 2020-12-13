@@ -21,7 +21,7 @@ public class Kick extends Command {
     @Override
     public void runCMD() {
         if (args.length < 1) {
-            send("You must mention a user or provide user ID.");
+            send("You must mention a user or provide a user ID.");
             return;
         }
 
@@ -37,16 +37,15 @@ public class Kick extends Command {
         EmbedBuilder eb = new EmbedBuilder();
         eb.setTitle("**" + member.getUser().getName() + "** has been kicked from the server.", null);
         eb.setColor(new Color(214, 24, 11));
-        if (args.length > 1) {
+        if (args.length > 1)
             eb.addField("**Reason:**", joinArgs(1), false);
-        }
         try {
             g.kick(member.getUser().getId(), joinArgs(1)).reason(joinArgs(1)).queue(
                     success -> send(eb.build()),
                     failure -> send("Cannot kick the user, do they have higher permissions?"));
         }
         catch (IllegalArgumentException e) {
-            send("You cannot kick the owner of the guild.");
+            send("You cannot kick this user.");
         }
     }
 }

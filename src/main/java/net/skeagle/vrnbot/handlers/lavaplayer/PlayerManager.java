@@ -12,6 +12,7 @@ import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.TextChannel;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class PlayerManager {
@@ -62,26 +63,25 @@ public class PlayerManager {
 
             @Override
             public void playlistLoaded(AudioPlaylist playlist) {
-                AudioTrack firstTrack = playlist.getSelectedTrack();
+                if (playlist.isSearchResult()) {
+                    AudioTrack track = playlist.getTracks().get(0);
+                    if (musicManager.player.getPlayingTrack() != null) {
+                        musicManager.scheduler.queue(track);
+                        channel.sendMessage("Adding to queue **" + track.getInfo().title + "**").queue();
+                        return;
+                    }
 
-                if (firstTrack == null) {
-                    firstTrack = playlist.getTracks().remove(0);
+                    play(musicManager, playlist.getTracks().get(0));
+                    channel.sendMessage("Now playing: **" + track.getInfo().title + "**").queue();
+                    return;
                 }
-
-                String msg = "Now playing: ";
-
-                if (musicManager.player.getPlayingTrack() != null) {
-                    msg = "Adding to queue: ";
-                }
-
-                channel.sendMessage(msg + "**" + firstTrack.getInfo().title + "** (first track of playlist **" + playlist.getName() + "**)").queue();
-
+                channel.sendMessage("Adding to queue **" + playlist.getTracks().size() + "** tracks from **" + playlist.getName() + "**").queue();
                 playlist.getTracks().forEach(musicManager.scheduler::queue);
             }
 
             @Override
             public void noMatches() {
-                channel.sendMessage("Nothing was found by " + trackUrl).queue();
+                channel.sendMessage("No search results were found for **" + trackUrl + "**").queue();
             }
 
             @Override
