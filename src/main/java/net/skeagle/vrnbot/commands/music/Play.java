@@ -33,8 +33,8 @@ public class Play extends VoiceCommand {
         manager.loadAndPlay(channel, s);
 
         if (!GuildMusicCache.getInstance().getVolumeCache().containsKey(g.getId())) {
-            GuildMusicCache.getInstance().getVolumeCache().put(g.getId(), 60);
-            manager.getGuildMusicManager(g).player.setVolume(60);
+            GuildMusicCache.getInstance().getVolumeCache().put(g.getId(), 50);
+            manager.getGuildMusicManager(g).player.setVolume(50);
         }
         PlayerManager playerManager = PlayerManager.getInstance();
         GuildMusicManager musicManager = playerManager.getGuildMusicManager(g);

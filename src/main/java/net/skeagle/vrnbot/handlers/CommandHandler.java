@@ -40,6 +40,8 @@ public class CommandHandler {
         addCmd(new Coinflip());
         addCmd(new Unpause());
         addCmd(new TrackInfo());
+        addCmd(new Skip());
+        addCmd(new Repeat());
     }
 
     private void addCmd(Command base) {

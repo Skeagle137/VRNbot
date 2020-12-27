@@ -66,9 +66,8 @@ public class Help extends Command {
         for (String cmd : commands) {
             Command base = handler.getCmd(cmd);
             if (base.getCategory().equalsIgnoreCase(category.obtainCategory())) {
-                if (base.isAdmin()) {
+                if (base.isAdmin())
                     break;
-                }
                 categorized.add(base.getCommand());
             }
         }

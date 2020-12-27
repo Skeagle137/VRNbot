@@ -4,6 +4,9 @@ import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
 import com.sedmelluq.discord.lavaplayer.player.event.AudioEventAdapter;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrackEndReason;
+import lombok.Getter;
+import lombok.Setter;
+import net.skeagle.vrnbot.utils.GuildMusicCache;
 
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -16,6 +19,8 @@ import java.util.concurrent.LinkedBlockingQueue;
 public class TrackScheduler extends AudioEventAdapter {
     private final AudioPlayer player;
     private final BlockingQueue<AudioTrack> queue;
+    @Getter @Setter
+    private boolean repeat = false;
 
     /**
      * @param player The audio player this scheduler uses
@@ -66,6 +71,10 @@ public class TrackScheduler extends AudioEventAdapter {
          */
         // Only start the next track if the end reason is suitable for it (FINISHED or LOAD_FAILED)
         if (endReason.mayStartNext) {
+            if (repeat) {
+                player.startTrack(track.makeClone(), false);
+                return;
+            }
             nextTrack();
         }
 

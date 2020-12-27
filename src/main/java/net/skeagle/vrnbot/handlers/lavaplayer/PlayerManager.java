@@ -97,9 +97,8 @@ public class PlayerManager {
     }
 
     public static synchronized PlayerManager getInstance() {
-        if (instance == null) {
+        if (instance == null)
             instance = new PlayerManager();
-        }
 
         return instance;
     }

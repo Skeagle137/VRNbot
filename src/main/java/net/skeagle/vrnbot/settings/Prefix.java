@@ -17,7 +17,7 @@ public class Prefix extends StorableAttribute {
     private static final Prefix instance = new Prefix();
 
     @Getter
-    private Map<Long, String> prefixes = getMap();
+    private final Map<Long, String> prefixes = getMap();
 
     public String get(long guildId) {
         try {

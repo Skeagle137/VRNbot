@@ -184,9 +184,8 @@ public abstract class Command {
     }
 
     protected Member getMember(final int index) {
-        if (!msg.getMentionedMembers().isEmpty()) {
+        if (!msg.getMentionedMembers().isEmpty())
             return msg.getMentionedMembers().get(0);
-        }
         String id = args[index];
 
         Member member = null;

@@ -3,6 +3,7 @@ package net.skeagle.vrnbot.handlers;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.guild.voice.GuildVoiceLeaveEvent;
+import net.dv8tion.jda.api.events.guild.voice.GuildVoiceMoveEvent;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.skeagle.vrnbot.handlers.lavaplayer.GuildMusicManager;
@@ -47,13 +48,31 @@ public class Listeners extends ListenerAdapter {
 
     @Override
     public void onGuildVoiceLeave(GuildVoiceLeaveEvent e) {
+        Member bot = e.getGuild().getMember(e.getJDA().getSelfUser());
+        if (bot == null) return;
+        if (!bot.getVoiceState().inVoiceChannel()) return;
+        if (e.getMember().getUser() != e.getJDA().getSelfUser())
+            if (e.getChannelLeft().getMembers().size() < 2 && e.getChannelLeft().getMembers().contains(bot)) {
+                GuildMusicCache.getInstance().getVolumeCache().remove(e.getGuild().getId());
+                PlayerManager playerManager = PlayerManager.getInstance();
+                GuildMusicManager musicManager = playerManager.getGuildMusicManager(e.getGuild());
+                if (musicManager.player.getPlayingTrack() != null && !musicManager.player.isPaused())
+                    musicManager.player.stopTrack();
+                e.getGuild().getAudioManager().closeAudioConnection();
+            }
+    }
+
+    @Override
+    public void onGuildVoiceMove(GuildVoiceMoveEvent e) {
         if (e.getMember().getUser() != e.getJDA().getSelfUser()) return;
-        if (e.getNewValue() == null)
-            GuildMusicCache.getInstance().getVolumeCache().remove(e.getGuild().getId());
+        System.out.println(e.getChannelJoined().getMembers().size());
+        if (e.getChannelJoined().getMembers().size() != 1) return;
+        GuildMusicCache.getInstance().getVolumeCache().remove(e.getGuild().getId());
         PlayerManager playerManager = PlayerManager.getInstance();
         GuildMusicManager musicManager = playerManager.getGuildMusicManager(e.getGuild());
         if (musicManager.player.getPlayingTrack() != null && !musicManager.player.isPaused())
             musicManager.player.stopTrack();
+        e.getGuild().getAudioManager().closeAudioConnection();
     }
 
     @Override

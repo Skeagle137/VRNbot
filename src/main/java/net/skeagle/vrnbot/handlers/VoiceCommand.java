@@ -29,10 +29,10 @@ public abstract class VoiceCommand extends Command {
 
     public VoiceCommand(String name, boolean isInChannel, boolean isBotInChannel, boolean isInSameChannel) {
         super(name);
-        setCategory(Category.MUSIC);
         this.isInChannel = isInChannel;
         this.isBotInChannel = isBotInChannel;
         this.isInSameChannel = isInSameChannel;
+        setCategory(Category.MUSIC);
     }
 
     @Override
@@ -51,11 +51,6 @@ public abstract class VoiceCommand extends Command {
             if (!isInSameChannel(g, e.getMember()) && g.getAudioManager().isConnected() && isInSameChannel)
                 throw new VRNException("You must be in the same voice channel as the bot to do this.");
         this.runCMDVoice();
-    }
-
-    @Override
-    public boolean isAdmin() {
-        return true;
     }
 
     protected abstract void runCMDVoice();
