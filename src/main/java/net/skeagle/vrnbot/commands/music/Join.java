@@ -1,10 +1,7 @@
 package net.skeagle.vrnbot.commands.music;
 
-import net.dv8tion.jda.api.entities.VoiceChannel;
 import net.dv8tion.jda.api.managers.AudioManager;
 import net.skeagle.vrnbot.handlers.VoiceCommand;
-
-import java.util.List;
 
 public class Join extends VoiceCommand {
 

@@ -127,22 +127,6 @@ public abstract class Command {
         this.command = command;
     }
 
-    protected boolean isInChannel(Guild g, User author) {
-        Member member = g.getMember(author);
-        return member.getVoiceState().getChannel() != null;
-    }
-
-    protected boolean joinVoice(Member member, Guild g) {
-        AudioManager am = g.getAudioManager();
-        isInChannel(g, member.getUser());
-        if (am.isConnected() || isInChannel(g, member.getUser())) {
-            am.openAudioConnection(member.getVoiceState().getChannel());
-            return true;
-        }
-        send("You must be in a voice channel to do this.");
-        return false;
-    }
-
     protected void sendDM(User author, String... msg) {
         author.openPrivateChannel().queue((channel1) -> {
             for (String message : msg) {
@@ -181,20 +165,6 @@ public abstract class Command {
 
         if (user == null) throw new NoUserFoundException();
         return user;
-    }
-
-    protected Member getMember(final int index) {
-        if (!msg.getMentionedMembers().isEmpty())
-            return msg.getMentionedMembers().get(0);
-        String id = args[index];
-
-        Member member = null;
-        try {
-            member = g.getMemberById(id);
-        } catch (Exception ignored) {}
-
-        if (member == null) throw new NoUserFoundException();
-        return member;
     }
 
     protected String joinArgs(int index) {

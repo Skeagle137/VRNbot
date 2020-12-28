@@ -26,7 +26,7 @@ public class Play extends VoiceCommand {
         }
         AudioManager am = g.getAudioManager();
         if (!am.isConnected())
-            joinVoice(e.getMember(), g);
+            am.openAudioConnection(e.getMember().getVoiceState().getChannel());
         PlayerManager manager = PlayerManager.getInstance();
 
         String s = parseSearch(String.join(" ", args));

@@ -44,7 +44,7 @@ public abstract class VoiceCommand extends Command {
         this.msg = super.msg;
         this.g = super.g;
         this.e = super.e;
-        if (!isInChannel(g, author) && isInChannel)
+        if (!g.getMember(author).getVoiceState().inVoiceChannel() && isInChannel)
             throw new VRNException("You must be in a voice channel to do this.");
         if (!g.getAudioManager().isConnected() && isBotInChannel)
             throw new VRNException("I am not currently in a voice channel.");

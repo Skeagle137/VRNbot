@@ -1,6 +1,7 @@
 package net.skeagle.vrnbot.commands.admin;
 
 import net.dv8tion.jda.api.entities.*;
+import net.dv8tion.jda.api.exceptions.ErrorResponseException;
 import net.skeagle.vrnbot.handlers.AdminCommand;
 import net.skeagle.vrnbot.utils.Config;
 
@@ -30,13 +31,13 @@ public class Setavatar extends AdminCommand {
                 new URL(args[0]);
                 updateAvatar(true, false, null);
             } catch (MalformedURLException e) {
-                Member m = getMember(0);
-                if (m != null) updateAvatar(false, false, m);
+                User user = getUser(0);
+                if (user != null) updateAvatar(false, false, user);
             }
         }
     }
 
-    private void updateAvatar(boolean isURL, boolean default_pic, Member m) {
+    private void updateAvatar(boolean isURL, boolean default_pic, User user) {
         Message progress = null;
         try {
             URLConnection connection;
@@ -49,8 +50,8 @@ public class Setavatar extends AdminCommand {
                 }
                 else {
                     progress = channel.sendMessage("Resolving image...").complete();
-                    progress.editMessage(progress.getContentRaw() + " " + m.getUser().getAvatarUrl()).complete();
-                    connection = new URL(m.getUser().getAvatarUrl()).openConnection();
+                    progress.editMessage(progress.getContentRaw() + " " + user.getAvatarUrl()).complete();
+                    connection = new URL(user.getAvatarUrl()).openConnection();
                 }
             }
             else {
@@ -71,6 +72,9 @@ public class Setavatar extends AdminCommand {
             progress.editMessage("Success!").complete();
         } catch (IOException e) {
             progress.editMessage(":x: " + progress.getContentRaw() + "```" + e.getMessage() + "```").complete();
+        }
+        catch (ErrorResponseException e) {
+            progress.editMessage(":x: `You are doing that too fast, slow down.`").complete();
         }
     }
 }

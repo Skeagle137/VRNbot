@@ -25,7 +25,7 @@ public class Kick extends Command {
             return;
         }
 
-        Member member = getMember(0);
+        User user = getUser(0);
         if (!e.getMember().hasPermission(Permission.KICK_MEMBERS)) {
             send("You do not have permission to do this.");
             return;
@@ -35,12 +35,12 @@ public class Kick extends Command {
             return;
         }
         EmbedBuilder eb = new EmbedBuilder();
-        eb.setTitle("**" + member.getUser().getName() + "** has been kicked from the server.", null);
+        eb.setTitle("**" + user.getName() + "** has been kicked from the server.", null);
         eb.setColor(new Color(214, 24, 11));
         if (args.length > 1)
             eb.addField("**Reason:**", joinArgs(1), false);
         try {
-            g.kick(member.getUser().getId(), joinArgs(1)).reason(joinArgs(1)).queue(
+            g.kick(user.getId(), joinArgs(1)).reason(joinArgs(1)).queue(
                     success -> send(eb.build()),
                     failure -> send("Cannot kick the user, do they have higher permissions?"));
         }
