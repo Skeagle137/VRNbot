@@ -19,6 +19,7 @@ public class Skip extends VoiceCommand {
             send("There is no currently playing track to skip.");
             return;
         }
+        musicManager.scheduler.setRepeat(false);
         send("Skipped the track." + (musicManager.scheduler.getQueue().isEmpty() ? " There are no more tracks left in the queue to play." : ""));
         musicManager.scheduler.nextTrack();
     }

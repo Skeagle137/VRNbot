@@ -149,7 +149,7 @@ public abstract class Command {
 
     protected boolean isInSameChannel(Guild g, Member member) {
         AudioManager am = g.getAudioManager();
-        if (am.getConnectedChannel() == null || !member.getVoiceState().inVoiceChannel()) return false;
+        if (am.getConnectedChannel() == null || member.getVoiceState().getChannel() == null) return false;
         return am.getConnectedChannel().getId().equals(member.getVoiceState().getChannel().getId());
     }
 

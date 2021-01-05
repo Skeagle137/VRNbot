@@ -1,9 +1,12 @@
 package net.skeagle.vrnbot.handlers;
 
+import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.events.guild.voice.GuildVoiceDeafenEvent;
 import net.dv8tion.jda.api.events.guild.voice.GuildVoiceLeaveEvent;
 import net.dv8tion.jda.api.events.guild.voice.GuildVoiceMoveEvent;
+import net.dv8tion.jda.api.events.guild.voice.GuildVoiceMuteEvent;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.skeagle.vrnbot.handlers.lavaplayer.GuildMusicManager;
@@ -63,9 +66,26 @@ public class Listeners extends ListenerAdapter {
     }
 
     @Override
+    public void onGuildVoiceMute(GuildVoiceMuteEvent e) {
+        if (e.getMember().getUser() != e.getJDA().getSelfUser()) return;
+        Member bot = e.getGuild().getMember(e.getJDA().getSelfUser());
+        if (bot == null) return;
+        if (bot.getVoiceState().isGuildMuted() && bot.hasPermission(Permission.VOICE_MUTE_OTHERS))
+            bot.mute(false).queue();
+    }
+
+    @Override
+    public void onGuildVoiceDeafen(GuildVoiceDeafenEvent e) {
+        if (e.getMember().getUser() != e.getJDA().getSelfUser()) return;
+        Member bot = e.getGuild().getMember(e.getJDA().getSelfUser());
+        if (bot == null) return;
+        if (bot.getVoiceState().isGuildDeafened() && bot.hasPermission(Permission.VOICE_DEAF_OTHERS))
+            bot.deafen(false).queue();
+    }
+
+    @Override
     public void onGuildVoiceMove(GuildVoiceMoveEvent e) {
         if (e.getMember().getUser() != e.getJDA().getSelfUser()) return;
-        System.out.println(e.getChannelJoined().getMembers().size());
         if (e.getChannelJoined().getMembers().size() != 1) return;
         GuildMusicCache.getInstance().getVolumeCache().remove(e.getGuild().getId());
         PlayerManager playerManager = PlayerManager.getInstance();

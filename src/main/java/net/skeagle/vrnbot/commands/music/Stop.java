@@ -20,6 +20,7 @@ public class Stop extends VoiceCommand {
             return;
         }
         musicManager.scheduler.getQueue().clear();
+        musicManager.scheduler.setRepeat(false);
         musicManager.player.stopTrack();
         musicManager.player.setPaused(false);
         send("Stopped playing and cleared all pending queues.");

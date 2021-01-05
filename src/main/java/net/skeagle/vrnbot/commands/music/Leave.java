@@ -20,9 +20,12 @@ public class Leave extends VoiceCommand {
         GuildMusicManager musicManager = playerManager.getGuildMusicManager(g);
         if (musicManager.player.getPlayingTrack() != null) {
             send("Can't leave the voice channel when there is a currently playing track.");
+            return;
         }
         musicManager.scheduler.getQueue().clear();
+        musicManager.scheduler.setRepeat(false);
         musicManager.player.stopTrack();
+        musicManager.player.setPaused(false);
         am.closeAudioConnection();
     }
 }

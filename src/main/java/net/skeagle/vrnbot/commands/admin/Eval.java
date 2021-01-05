@@ -17,34 +17,32 @@ public class Eval extends AdminCommand {
 
     @Override
     public void runCMDAdmin() {
-        if (author.getId().equals("348511776687783957")) {
-            if (args.length > 0) {
-                Executors.newCachedThreadPool().execute(() -> {
-                    try {
-                        ScriptEngine script = new ScriptEngineManager().getEngineByExtension("js");
-                        script.put("jda", jda);
-                        script.put("channel", channel);
-                        script.put("author", author);
-                        script.put("msg", msg);
-                        script.put("args", args);
-                        script.put("guild", g);
-                        Object o;
-                        StringBuilder sb = new StringBuilder();
-                        for (String arg : args) {
-                            sb.append(arg).append(" ");
-                        }
-                        o = script.eval(sb.toString());
-                        if (o != null) {
-                            channel.sendMessage("Output: " + o).queue();
-                        }
-                    } catch (ScriptException e) {
-                        channel.sendMessage("An error occurred:\n" + e.getMessage()).queue();
-                        e.printStackTrace();
+        if (args.length > 0) {
+            Executors.newCachedThreadPool().execute(() -> {
+                try {
+                    ScriptEngine script = new ScriptEngineManager().getEngineByExtension("js");
+                    script.put("jda", jda);
+                    script.put("channel", channel);
+                    script.put("author", author);
+                    script.put("msg", msg);
+                    script.put("args", args);
+                    script.put("g", g);
+                    Object o;
+                    StringBuilder sb = new StringBuilder();
+                    for (String arg : args) {
+                        sb.append(arg).append(" ");
                     }
-                });
-                return;
-            }
-            send("You must provide code after the command.");
+                    o = script.eval(sb.toString());
+                    if (o != null) {
+                        channel.sendMessage("Output: " + o).queue();
+                    }
+                } catch (ScriptException e) {
+                    channel.sendMessage("An error occurred:\n" + e.getMessage()).queue();
+                    e.printStackTrace();
+                }
+            });
+            return;
         }
+        send("You must provide code after the command.");
     }
 }

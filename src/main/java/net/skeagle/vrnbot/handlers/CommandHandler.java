@@ -3,6 +3,7 @@ import lombok.Getter;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.skeagle.vrnbot.commands.admin.BlackList;
 import net.skeagle.vrnbot.commands.admin.Eval;
+import net.skeagle.vrnbot.commands.admin.LeaveGuild;
 import net.skeagle.vrnbot.commands.admin.Setavatar;
 import net.skeagle.vrnbot.commands.general.*;
 import net.skeagle.vrnbot.commands.moderation.Kick;
@@ -42,6 +43,7 @@ public class CommandHandler {
         addCmd(new TrackInfo());
         addCmd(new Skip());
         addCmd(new Repeat());
+        addCmd(new LeaveGuild());
     }
 
     private void addCmd(Command base) {

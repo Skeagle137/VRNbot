@@ -25,8 +25,14 @@ public abstract class AdminCommand extends Command {
         setCategory(Category.ADMIN);
     }
 
+    public AdminCommand(String name, String desc) {
+        super(name);
+        setDesc(desc);
+        setCategory(Category.ADMIN);
+    }
+
     @Override
-    protected void runCMD() {
+    protected final void runCMD() {
         this.jda = super.jda;
         this.args = super.args;
         this.channel = super.channel;
@@ -40,7 +46,7 @@ public abstract class AdminCommand extends Command {
     }
 
     @Override
-    public boolean isAdmin() {
+    public final boolean isAdmin() {
         return true;
     }
 
