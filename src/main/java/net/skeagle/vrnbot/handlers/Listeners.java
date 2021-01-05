@@ -85,8 +85,8 @@ public class Listeners extends ListenerAdapter {
 
     @Override
     public void onGuildVoiceMove(GuildVoiceMoveEvent e) {
-        if (e.getMember().getUser() != e.getJDA().getSelfUser()) return;
-        if (e.getChannelJoined().getMembers().size() != 1) return;
+        if (e.getMember().getUser() == e.getJDA().getSelfUser() && e.getChannelJoined().getMembers().size() != 1) return;
+        else if (e.getMember().getUser() != e.getJDA().getSelfUser() && e.getChannelLeft().getMembers().size() != 1) return;
         GuildMusicCache.getInstance().getVolumeCache().remove(e.getGuild().getId());
         PlayerManager playerManager = PlayerManager.getInstance();
         GuildMusicManager musicManager = playerManager.getGuildMusicManager(e.getGuild());
