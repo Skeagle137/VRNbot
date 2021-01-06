@@ -11,8 +11,8 @@ import java.util.Map;
 
 public abstract class StorableAttribute {
 
-    private Map<Long, String> map = new HashMap<>();
-    private Connection conn = Bot.db.conn;
+    private final Map<Long, String> map = new HashMap<>();
+    private final Connection conn = Bot.db.conn;
 
     protected abstract String get(long guildid);
 
@@ -26,7 +26,6 @@ public abstract class StorableAttribute {
 
     protected void updateGuildId(String column, long guildId) {
         try {
-            //language=SQLite
             String s = "INSERT INTO " + column + "(guild_id) VALUES(?)";
             final PreparedStatement ps = getConn().prepareStatement(s);
             ps.setString(1, String.valueOf(guildId));
@@ -35,15 +34,6 @@ public abstract class StorableAttribute {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-    }
-
-    protected String getResult(PreparedStatement ps, String column) throws SQLException {
-        try (final ResultSet rs = ps.executeQuery()) {
-            if (rs.next()) {
-                return rs.getString(column);
-            }
-        }
-        return null;
     }
 
 }

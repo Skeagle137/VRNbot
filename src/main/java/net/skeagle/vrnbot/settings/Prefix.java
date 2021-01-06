@@ -21,7 +21,6 @@ public class Prefix extends StorableAttribute {
 
     public String get(long guildId) {
         try {
-            //language=SQLite
             String s = "SELECT prefix FROM guild_prefix WHERE guild_id = ?";
             final PreparedStatement ps = getConn().prepareStatement(s);
             ps.setString(1, String.valueOf(guildId));
