@@ -35,11 +35,9 @@ public class Help extends Command {
             eb.setDescription(sb);
             List<String> categorized = new ArrayList<>();
             handler.getCommands().stream().map(Command::getCommand).forEach(categorized::add);
-            for (Category category : Category.values()) {
-                if (category != Category.ADMIN) {
+            for (Category category : Category.values())
+                if (category != Category.ADMIN)
                     eb.addField("***" + category.obtainCategory() + "***", "`" + String.join("`, `", sorted(category, categorized)) + "`", false);
-                }
-            }
             channel.sendMessage(eb.build()).queue();
             return;
         }

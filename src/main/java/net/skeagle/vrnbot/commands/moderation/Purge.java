@@ -20,33 +20,24 @@ public class Purge extends Command {
 
     @Override
     public void runCMD() {
-        if (!e.getMember().hasPermission(Permission.MESSAGE_MANAGE)) {
-            channel.sendMessage("You do not have the `Manage Messages` permission required to use this command.").queue();
-            return;
-        }
+        if (!e.getMember().hasPermission(channel, Permission.MESSAGE_MANAGE))
+            returnsend("You do not have the `Manage Messages` permission required to use this command.");
 
-        if (!g.getSelfMember().hasPermission(channel, Permission.MESSAGE_MANAGE)) {
-            send("I need the `Manage Messages` permission for this command.");
-            return;
-        }
+        if (!g.getSelfMember().hasPermission(channel, Permission.MESSAGE_MANAGE))
+            returnsend("I need the `Manage Messages` permission for this command.");
 
-        if (args.length < 1) {
-            send("You must provide the amount of messages to delete after the command.");
-            return;
-        }
+        if (args.length < 1)
+            returnsend("You must provide the amount of messages to delete after the command.");
 
-        int amount;
+        int amount = 0;
         try {
             amount = Integer.parseInt(args[0]);
-        } catch (NumberFormatException ignored) {
-            send("That is not a valid number.");
-            return;
+        } catch (NumberFormatException e) {
+            returnsend("That is not a valid number.");
         }
 
-        if (amount < 2 || amount > 100) {
-            send("The amount of messages must be at least 2 and no more than 100.");
-            return;
-        }
+        if (amount < 2 || amount > 100)
+            returnsend("The amount of messages must be at least 2 and no more than 100.");
 
         channel.getIterableHistory().takeAsync(amount + 1).thenApplyAsync((msgs) -> {
             List<Message> msgList = msgs.stream().filter((m) -> !m.getTimeCreated()

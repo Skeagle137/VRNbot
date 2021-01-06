@@ -46,11 +46,11 @@ public abstract class VoiceCommand extends Command {
         this.e = super.e;
         if (isInChannel)
             if (e.getMember().getVoiceState().getChannel() == null)
-                throw new VRNException("You must be in a voice channel to do this.");
+                returnsend("You must be in a voice channel to do this.");
         if (!g.getAudioManager().isConnected() && isBotInChannel)
-            throw new VRNException("I am not currently in a voice channel.");
+            returnsend("I am not currently in a voice channel.");
         if (!isInSameChannel(g, e.getMember()) && g.getAudioManager().isConnected() && isInSameChannel)
-            throw new VRNException("You must be in the same voice channel as the bot to do this.");
+            returnsend("You must be in the same voice channel as the bot to do this.");
         this.runCMDVoice();
     }
 

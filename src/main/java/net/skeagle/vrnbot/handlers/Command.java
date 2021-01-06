@@ -116,6 +116,9 @@ public abstract class Command {
 
         try {
             runCMD();
+            if (getClass().isAnnotationPresent(DeleteAuthorMsg.class))
+                if (g.getSelfMember().hasPermission(channel, Permission.MESSAGE_MANAGE))
+                    msg.delete().queue();
         } catch (VRNException ex) {
             send(ex.getMessage());
         }
@@ -141,6 +144,10 @@ public abstract class Command {
 
     protected void send(String msg) {
         channel.sendMessage(msg).queue();
+    }
+
+    protected void returnsend(String msg) {
+        throw new VRNException(msg);
     }
 
     protected void send(MessageEmbed embed) {

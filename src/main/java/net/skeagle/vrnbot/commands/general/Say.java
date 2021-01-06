@@ -2,7 +2,9 @@ package net.skeagle.vrnbot.commands.general;
 
 import net.dv8tion.jda.api.Permission;
 import net.skeagle.vrnbot.handlers.Command;
+import net.skeagle.vrnbot.handlers.DeleteAuthorMsg;
 
+@DeleteAuthorMsg
 public class Say extends Command {
     public Say() {
         super("say");
@@ -16,13 +18,9 @@ public class Say extends Command {
         if (args.length > 0) {
             StringBuilder sb = new StringBuilder();
 
-            for (String arg : args) {
+            for (String arg : args)
                 sb.append(arg).append(" ");
-            }
 
-            if (g.getSelfMember().hasPermission(channel, Permission.MESSAGE_MANAGE)) {
-                msg.delete().queue();
-            }
             send(sb.toString());
             return;
         }
