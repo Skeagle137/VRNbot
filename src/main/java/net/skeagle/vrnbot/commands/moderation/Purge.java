@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 public class Purge extends Command {
     public Purge() {
         super("purge");
-        setDesc("Deletes a specified amount of the most recent messages (max of 50).");
+        setDesc("Deletes a specified amount of the most recent messages (max of 100).");
         setUsage("<amount>");
         setCategory(Category.MODERATION);
     }
