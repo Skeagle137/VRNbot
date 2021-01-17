@@ -22,10 +22,9 @@ public class Setprefix extends Command {
 
     @Override
     public void runCMD() {
-        if (args.length < 1) {
-            send("You must provide a new prefix.");
-            return;
-        }
+        if (args.length < 1)
+            returnsend("You must provide a new prefix.");
+
         setPrefix(g.getIdLong(), args[0]);
         send("Set the prefix to `" + args[0] + "`.");
     }
@@ -33,7 +32,6 @@ public class Setprefix extends Command {
     private void setPrefix(long id, String prefix) {
         Prefix.getInstance().getPrefixes().put(id, prefix);
 
-        //language=SQLite
         try {
             PreparedStatement ps = conn.prepareStatement("UPDATE guild_prefix SET prefix = ? WHERE guild_id = ?");
             ps.setString(1, prefix);

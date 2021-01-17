@@ -15,10 +15,9 @@ public class Skip extends VoiceCommand {
     public void runCMDVoice() {
         PlayerManager playerManager = PlayerManager.getInstance();
         GuildMusicManager musicManager = playerManager.getGuildMusicManager(g);
-        if (musicManager.player.getPlayingTrack() == null) {
-            send("There is no currently playing track to skip.");
-            return;
-        }
+        if (musicManager.player.getPlayingTrack() == null)
+            returnsend("There is no currently playing track to skip.");
+
         musicManager.scheduler.setRepeat(false);
         send("Skipped the track." + (musicManager.scheduler.getQueue().isEmpty() ? " There are no more tracks left in the queue to play." : ""));
         musicManager.scheduler.nextTrack();

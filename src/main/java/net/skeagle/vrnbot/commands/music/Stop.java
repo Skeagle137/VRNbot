@@ -15,10 +15,9 @@ public class Stop extends VoiceCommand {
     protected void runCMDVoice() {
         PlayerManager playerManager = PlayerManager.getInstance();
         GuildMusicManager musicManager = playerManager.getGuildMusicManager(g);
-        if (musicManager.player.getPlayingTrack() == null) {
-            send("There is nothing currently playing.");
-            return;
-        }
+        if (musicManager.player.getPlayingTrack() == null)
+            returnsend("There is nothing currently playing.");
+
         musicManager.scheduler.getQueue().clear();
         musicManager.scheduler.setRepeat(false);
         musicManager.player.stopTrack();

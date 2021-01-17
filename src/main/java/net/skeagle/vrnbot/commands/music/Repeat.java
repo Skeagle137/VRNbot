@@ -15,10 +15,9 @@ public class Repeat extends VoiceCommand {
     public void runCMDVoice() {
         PlayerManager playerManager = PlayerManager.getInstance();
         GuildMusicManager musicManager = playerManager.getGuildMusicManager(g);
-        if (musicManager.player.getPlayingTrack() == null) {
-            send("There is no currently playing track.");
-            return;
-        }
+        if (musicManager.player.getPlayingTrack() == null)
+            returnsend("There is no currently playing track.");
+
         musicManager.scheduler.setRepeat(!musicManager.scheduler.isRepeat());
         send("The currently playing track will " + (musicManager.scheduler.isRepeat() ? "now" : "no longer") + " repeat.");
     }

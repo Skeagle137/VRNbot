@@ -1,6 +1,6 @@
 package net.skeagle.vrnbot.utils;
 
-import net.skeagle.vrnbot.handlers.exceptions.VRNException;
+import net.skeagle.vrnbot.handlers.VRNException;
 
 import java.math.BigInteger;
 import java.util.regex.Pattern;

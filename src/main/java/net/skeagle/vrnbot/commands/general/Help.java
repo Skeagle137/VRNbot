@@ -43,10 +43,9 @@ public class Help extends Command {
         }
 
         Command base = handler.getCmd(args[0]);
-        if (base == null || (base.isAdmin() && !author.getId().equals(Config.OWNERID))) {
-            channel.sendMessage("Nothing found for " + args[0]).queue();
-            return;
-        }
+        if (base == null || (base.isAdmin() && !author.getId().equals(Config.OWNERID)))
+            returnsend("Nothing found for " + args[0]);
+
         EmbedBuilder eb = new EmbedBuilder();
         eb.setTitle("Command Help Information - " + base.getCommand(), null);
         Random r = new Random();

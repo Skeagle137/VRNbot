@@ -13,11 +13,9 @@ public class Join extends VoiceCommand {
     @Override
     public void runCMDVoice() {
         AudioManager am = g.getAudioManager();
-        if (am.isConnected()) {
-            send((!isInSameChannel(g, e.getMember()) ?
+        if (am.isConnected())
+            returnsend((!isInSameChannel(g, e.getMember()) ?
                     "I am already in a voice channel. Use the summon command to summon me to your channel." : "I am already in your voice channel."));
-            return;
-        }
         am.openAudioConnection(e.getMember().getVoiceState().getChannel());
     }
 }

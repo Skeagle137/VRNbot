@@ -105,11 +105,6 @@ public class Listeners extends ListenerAdapter {
             e.getChannel().sendMessage("My prefix here is `" + prefix + "`. If you need any help, do `" + prefix + "help`.").queue();
             return;
         }
-        if (rawmsg.equalsIgnoreCase(prefix + "key")) {
-            e.getAuthor().openPrivateChannel().queue((channel1) ->
-                    channel1.sendMessage("oh. you figured it out. well, the password, or key, is 1357908642.").queue());
-            return;
-        }
         if (rawmsg.toLowerCase().startsWith(prefix)) {
             CommandHandler handle = new CommandHandler();
             handle.doCommand(e, prefix);

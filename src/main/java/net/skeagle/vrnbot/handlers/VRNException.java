@@ -1,4 +1,4 @@
-package net.skeagle.vrnbot.handlers.exceptions;
+package net.skeagle.vrnbot.handlers;
 
 public class VRNException extends RuntimeException {
     private static final long serialVersionUID = 1L;

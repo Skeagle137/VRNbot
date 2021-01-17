@@ -9,14 +9,14 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
-public abstract class StorableAttribute {
+public abstract class StorableAttribute<T> {
 
-    private final Map<Long, String> map = new HashMap<>();
+    private final Map<Long, T> map = new HashMap<>();
     private final Connection conn = Bot.db.conn;
 
     protected abstract String get(long guildid);
 
-    protected Map<Long, String> getMap() {
+    protected Map<Long, T> getMap() {
         return map;
     }
 

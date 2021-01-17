@@ -20,13 +20,13 @@ public class Play extends VoiceCommand {
 
     @Override
     public void runCMDVoice() {
-        if (args.length < 1) {
-            send("You must include a URL or keywords in the command.");
-            return;
-        }
+        if (args.length < 1)
+            returnsend("You must include a URL or keywords in the command.");
+
         AudioManager am = g.getAudioManager();
         if (!am.isConnected())
             am.openAudioConnection(e.getMember().getVoiceState().getChannel());
+
         PlayerManager manager = PlayerManager.getInstance();
 
         String s = parseSearch(String.join(" ", args));

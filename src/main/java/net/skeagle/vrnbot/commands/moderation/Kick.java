@@ -20,20 +20,17 @@ public class Kick extends Command {
 
     @Override
     public void runCMD() {
-        if (args.length < 1) {
-            send("You must mention a user or provide a user ID.");
-            return;
-        }
+        if (args.length < 1)
+            returnsend("You must mention a user or provide a user ID.");
 
         User user = getUser(0);
-        if (!e.getMember().hasPermission(Permission.KICK_MEMBERS)) {
-            send("You do not have permission to do this.");
-            return;
-        }
-        if (!g.getSelfMember().hasPermission(Permission.KICK_MEMBERS)) {
-            send("Cannot kick the user since I do not have the `Kick Members` permission.");
-            return;
-        }
+
+        if (!e.getMember().hasPermission(Permission.KICK_MEMBERS))
+            returnsend("You do not have permission to do this.");
+
+        if (!g.getSelfMember().hasPermission(Permission.KICK_MEMBERS))
+            returnsend("Cannot kick the user since I do not have the `Kick Members` permission.");
+
         EmbedBuilder eb = new EmbedBuilder();
         eb.setTitle("**" + user.getName() + "** has been kicked from the server.", null);
         eb.setColor(new Color(214, 24, 11));

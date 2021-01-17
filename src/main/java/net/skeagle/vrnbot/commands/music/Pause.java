@@ -15,14 +15,12 @@ public class Pause extends VoiceCommand {
     public void runCMDVoice() {
         PlayerManager playerManager = PlayerManager.getInstance();
         GuildMusicManager musicManager = playerManager.getGuildMusicManager(g);
-        if (musicManager.player.isPaused()) {
-            send("The player is already paused.");
-            return;
-        }
+        if (musicManager.player.isPaused())
+            returnsend("The player is already paused.");
+
         if (musicManager.player.getPlayingTrack() != null) {
             musicManager.player.setPaused(true);
-            send("**Paused** the currently playing track.");
-            return;
+            returnsend("**Paused** the currently playing track.");
         }
         send("There is no currently playing track to pause/resume.");
     }

@@ -5,8 +5,6 @@ import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.managers.AudioManager;
-import net.skeagle.vrnbot.handlers.exceptions.NoUserFoundException;
-import net.skeagle.vrnbot.handlers.exceptions.VRNException;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -165,20 +163,34 @@ public abstract class Command {
             return msg.getMentionedUsers().get(0);
         String id = args[index];
 
-        User user = null;
+        User user;
         try {
             user = g.getJDA().retrieveUserById(id).complete();
-        } catch (Exception ignored) {}
-
-        if (user == null) throw new NoUserFoundException();
+        } catch (Exception e) {
+            throw new VRNException("You must provide a valid id or mention of a user.");
+        }
         return user;
+    }
+
+    protected Role getRole(int index) {
+        if (!msg.getMentionedRolesBag().isEmpty())
+            if (msg.getMentionedRolesBag().stream().findFirst().isPresent())
+                return msg.getMentionedRolesBag().stream().findFirst().get();
+        String id = args[index];
+
+        Role role;
+        try {
+            role = g.getRoleById(id);
+        } catch (Exception e) {
+            throw new VRNException("You must provide a valid id or mention of a role. Also, make sure that it is mentionable.");
+        }
+        return role;
     }
 
     protected String joinArgs(int index) {
         StringBuilder sb = new StringBuilder();
-        for (int i = index; i < args.length; i++) {
+        for (int i = index; i < args.length; i++)
             sb.append(args[i]).append(" ");
-        }
         return sb.toString();
     }
 }

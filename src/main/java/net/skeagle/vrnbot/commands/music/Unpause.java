@@ -15,15 +15,13 @@ public class Unpause extends VoiceCommand {
     public void runCMDVoice() {
         PlayerManager playerManager = PlayerManager.getInstance();
         GuildMusicManager musicManager = playerManager.getGuildMusicManager(g);
-        if (!musicManager.player.isPaused()) {
-            send("The player is not currently paused.");
-            return;
-        }
-        if (musicManager.player.getPlayingTrack() != null) {
+        if (!musicManager.player.isPaused())
+            returnsend("The player is not currently paused.");
+
+        if (musicManager.player.getPlayingTrack() != null)
             musicManager.player.setPaused(false);
-            send("**Resumed** the currently playing track.");
-            return;
-        }
+            returnsend("**Resumed** the currently playing track.");
+
         send("There is no currently playing track to pause/resume.");
     }
 }

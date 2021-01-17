@@ -21,10 +21,9 @@ public class TrackInfo extends VoiceCommand {
     public void runCMDVoice() {
         PlayerManager playerManager = PlayerManager.getInstance();
         GuildMusicManager musicManager = playerManager.getGuildMusicManager(g);
-        if (musicManager.player.getPlayingTrack() == null) {
-            send("There is no currently playing track to get information on.");
-            return;
-        }
+        if (musicManager.player.getPlayingTrack() == null)
+            returnsend("There is no currently playing track to get information on.");
+
         AudioTrackInfo info = musicManager.player.getPlayingTrack().getInfo();
         EmbedBuilder eb = new EmbedBuilder();
         eb.setTitle("**" + info.title + "**");
