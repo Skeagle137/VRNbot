@@ -10,4 +10,5 @@ public class Config {
     public static final String OWNERID = config.get("ownerid");
     public static final String DEFAULT_PREFIX = config.get("default_prefix");
     public static final String DEFAULT_AVATAR = config.get("default_avatar");
+    public static final String AUTOSAVE_TIME = config.get("autosave_time");
 }

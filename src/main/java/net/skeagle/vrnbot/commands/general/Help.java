@@ -1,10 +1,10 @@
 package net.skeagle.vrnbot.commands.general;
 
 import net.dv8tion.jda.api.EmbedBuilder;
+import net.skeagle.vrnbot.settings.guildsettings.GuildSettings;
 import net.skeagle.vrnbot.utils.Config;
 import net.skeagle.vrnbot.handlers.Command;
 import net.skeagle.vrnbot.handlers.CommandHandler;
-import net.skeagle.vrnbot.settings.Prefix;
 
 
 import java.awt.*;
@@ -52,7 +52,7 @@ public class Help extends Command {
         eb.setColor(new Color(r.nextInt(256), r.nextInt(256), r.nextInt(256)));
         eb.addField("Description", base.getDescription(), false);
         eb.addField("Usage", base.getUsage().replaceAll("\\{prefix}",
-                Prefix.getInstance().getPrefixes().computeIfAbsent(g.getIdLong(), Prefix.getInstance()::get)), false);
+                GuildSettings.getInstance().getSettings(g).getPrefix()), false);
         eb.addField("Aliases", base.getAliases().isEmpty() ? "(None)" : String.join(", ", base.getAliases()), false);
         eb.addField("Category", base.getCategory(), false);
         channel.sendMessage(eb.build()).queue();

@@ -9,10 +9,10 @@ import java.util.HashMap;
 import java.util.List;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class GuildMusicCache {
+public class GuildCache {
 
     @Getter
-    private static final GuildMusicCache instance = new GuildMusicCache();
+    private static final GuildCache instance = new GuildCache();
 
     @Getter
     HashMap<String, Integer> volumeCache = new HashMap<>();

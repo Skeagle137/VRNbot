@@ -5,10 +5,14 @@ import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.exceptions.ErrorResponseException;
+import net.skeagle.vrnbot.handlers.BotPerms;
 import net.skeagle.vrnbot.handlers.Command;
+import net.skeagle.vrnbot.handlers.Perms;
 
 import java.awt.*;
 
+@BotPerms(perms = {Permission.KICK_MEMBERS})
+@Perms(perms = {Permission.KICK_MEMBERS})
 public class Kick extends Command {
 
     public Kick() {
@@ -24,12 +28,6 @@ public class Kick extends Command {
             returnsend("You must mention a user or provide a user ID.");
 
         User user = getUser(0);
-
-        if (!e.getMember().hasPermission(Permission.KICK_MEMBERS))
-            returnsend("You do not have permission to do this.");
-
-        if (!g.getSelfMember().hasPermission(Permission.KICK_MEMBERS))
-            returnsend("Cannot kick the user since I do not have the `Kick Members` permission.");
 
         EmbedBuilder eb = new EmbedBuilder();
         eb.setTitle("**" + user.getName() + "** has been kicked from the server.", null);

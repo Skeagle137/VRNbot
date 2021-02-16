@@ -2,7 +2,9 @@ package net.skeagle.vrnbot.commands.moderation;
 
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Message;
+import net.skeagle.vrnbot.handlers.BotPerms;
 import net.skeagle.vrnbot.handlers.Command;
+import net.skeagle.vrnbot.handlers.Perms;
 
 import java.time.OffsetDateTime;
 import java.time.temporal.ChronoUnit;
@@ -10,6 +12,8 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
+@BotPerms(perms = {Permission.MESSAGE_MANAGE})
+@Perms(perms = {Permission.MESSAGE_MANAGE})
 public class Purge extends Command {
     public Purge() {
         super("purge");

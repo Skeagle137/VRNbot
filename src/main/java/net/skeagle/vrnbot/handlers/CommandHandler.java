@@ -6,7 +6,8 @@ import net.skeagle.vrnbot.commands.general.*;
 import net.skeagle.vrnbot.commands.moderation.Kick;
 import net.skeagle.vrnbot.commands.moderation.Purge;
 import net.skeagle.vrnbot.commands.music.*;
-import net.skeagle.vrnbot.commands.setting.Setprefix;
+import net.skeagle.vrnbot.commands.setting.DefaultRoles;
+import net.skeagle.vrnbot.commands.setting.SetPrefix;
 import net.skeagle.vrnbot.commands.general.Help;
 import net.skeagle.vrnbot.settings.BlacklistedUsers;
 
@@ -31,7 +32,7 @@ public class CommandHandler {
         addCmd(new Play());
         addCmd(new Stop());
         addCmd(new Volume());
-        addCmd(new Setprefix());
+        addCmd(new SetPrefix());
         addCmd(new BlackList());
         addCmd(new Kick());
         addCmd(new Pause());
@@ -42,6 +43,8 @@ public class CommandHandler {
         addCmd(new Repeat());
         addCmd(new LeaveGuild());
         addCmd(new ConvertTime());
+        addCmd(new TestRole());
+        addCmd(new DefaultRoles());
     }
 
     private void addCmd(Command base) {

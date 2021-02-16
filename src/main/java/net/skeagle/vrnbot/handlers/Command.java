@@ -5,6 +5,8 @@ import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.managers.AudioManager;
+import net.skeagle.vrnbot.settings.CachedRole;
+import net.skeagle.vrnbot.settings.guildsettings.GuildSettings;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -32,7 +34,7 @@ public abstract class Command {
         SETTINGS("Settings"),
         ADMIN("Admin");
 
-        private String category;
+        private final String category;
 
         Category(String category) {
             this.category = category;
@@ -113,6 +115,20 @@ public abstract class Command {
         this.e = e;
 
         try {
+            if (!g.getSelfMember().hasPermission(Permission.ADMINISTRATOR) && getClass().isAnnotationPresent(BotPerms.class)) {
+                BotPerms bperms = getClass().getAnnotation(BotPerms.class);
+                for (Permission perm : bperms.perms())
+                    if (!g.getSelfMember().hasPermission(perm)) {
+                        if (perm == Permission.MESSAGE_MANAGE && getClass().isAnnotationPresent(DeleteAuthorMsg.class)) continue;
+                        returnsend("I need the permission `" + perm.getName() + "` to do this.");
+                    }
+            }
+            if (!e.getMember().hasPermission(Permission.ADMINISTRATOR) && getClass().isAnnotationPresent(Perms.class)) {
+                Perms perms = getClass().getAnnotation(Perms.class);
+                for (Permission perm : perms.perms())
+                    if (!e.getMember().hasPermission(perm))
+                        returnsend("You need the permission `" + perm.getName() + "` to do this.");
+            }
             runCMD();
             if (getClass().isAnnotationPresent(DeleteAuthorMsg.class))
                 if (g.getSelfMember().hasPermission(channel, Permission.MESSAGE_MANAGE))
@@ -178,13 +194,14 @@ public abstract class Command {
                 return msg.getMentionedRolesBag().stream().findFirst().get();
         String id = args[index];
 
-        Role role;
+        Role r = null;
         try {
-            role = g.getRoleById(id);
-        } catch (Exception e) {
-            throw new VRNException("You must provide a valid id or mention of a role. Also, make sure that it is mentionable.");
+            r = g.getRoleById(id);
         }
-        return role;
+        catch (Exception ignored) {}
+        if (r == null)
+            returnsend("You must provide a valid id or mention of a role. Also, make sure that it is mentionable.");
+        return r;
     }
 
     protected String joinArgs(int index) {
@@ -192,5 +209,12 @@ public abstract class Command {
         for (int i = index; i < args.length; i++)
             sb.append(args[i]).append(" ");
         return sb.toString();
+    }
+
+    protected void makeRole(CachedRole role) {
+        if (g.getSelfMember().hasPermission(Permission.MANAGE_ROLES)) {
+            Role r = g.createRole().setName(role.getDefaultname()).setPermissions(role.getPerms()).complete();
+            GuildSettings.getInstance().getSettings(g).setRolecache(CachedRole.DJ, r.getId());
+        }
     }
 }
